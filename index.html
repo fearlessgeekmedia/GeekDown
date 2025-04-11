@@ -23,4 +23,189 @@
     <div id="app"></div>
     <script type="module" src="index.ts"></script>
   </body>
+  <footer>
+    <!-- Add this script at the bottom of your HTML, just before the closing </body> tag -->
+    <script>
+      // Wait for the DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners once the DOM is loaded
+    setTimeout(function() {
+      // Get the menu items
+      const openBtn = document.querySelector('a.w3-bar-item.w3-button:nth-child(1)');
+      const saveBtn = document.querySelector('a.w3-bar-item.w3-button:nth-child(2)');
+      const saveAsBtn = document.querySelector('a.w3-bar-item.w3-button:nth-child(3)');
+      
+      if (openBtn) {
+        openBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          openFile();
+        });
+      }
+      
+      if (saveBtn) {
+        saveBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          saveToLocalStorage();
+        });
+      }
+      
+      if (saveAsBtn) {
+        saveAsBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          saveAsFile();
+        });
+      }
+    }, 1000); // Wait for 1 second to ensure everything is loaded
+  });
+  
+  // Function to open a file
+  function openFile() {
+    console.log('Open file clicked');
+    
+    // Create a file input element
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.md,.markdown,.txt';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+    
+    // Handle file selection
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          const content = e.target.result;
+          console.log('File loaded:', file.name);
+          
+          // Store the content for the page to load on refresh
+          localStorage.setItem('geekdown-content-to-load', content);
+          localStorage.setItem('geekdown-filename', file.name);
+          
+          // Reload the page to load the new content
+          window.location.reload();
+        };
+        
+        reader.readAsText(file);
+      }
+      
+      // Clean up
+      document.body.removeChild(fileInput);
+    });
+    
+    // Trigger the file dialog
+    fileInput.click();
+  }
+  
+  // Function to save to localStorage
+  function saveToLocalStorage() {
+    console.log('Save clicked');
+    
+    try {
+      // Get the editor content
+      const editorContent = document.querySelector('#app .milkdown');
+      if (editorContent) {
+        // Get the text content
+        const content = editorContent.textContent || '';
+        localStorage.setItem('geekdown-content', content);
+        alert('Content saved to browser storage!');
+      } else {
+        alert('Could not find editor content');
+      }
+    } catch (err) {
+      console.error('Error saving to localStorage:', err);
+      alert('Error saving content: ' + err.message);
+    }
+  }
+  
+  // Function to save as file
+  function saveAsFile() {
+    console.log('Save As clicked');
+    
+    try {
+      // Get the editor content
+      const editorContent = document.querySelector('#app .milkdown');
+      if (editorContent) {
+        // Get the raw text content
+        const content = editorContent.textContent || '';
+        
+        // Prompt for filename
+        let filename = prompt('Enter a filename:', 'document.md');
+        if (!filename) return; // User cancelled
+        
+        // Add .md extension if not present
+        if (!filename.toLowerCase().endsWith('.md')) {
+          filename += '.md';
+        }
+        
+        // Create a blob and download it
+        const blob = new Blob([content], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        console.log('File saved as:', filename);
+      } else {
+        alert('Could not find editor content');
+      }
+    } catch (err) {
+      console.error('Error saving file:', err);
+      alert('Error saving file: ' + err.message);
+    }
+  }
+  
+  // Check for content to load on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const contentToLoad = localStorage.getItem('geekdown-content-to-load');
+    if (contentToLoad) {
+      console.log('Found content to load');
+      
+      // Wait for the editor to initialize
+      const loadInterval = setInterval(function() {
+        const editorElement = document.querySelector('#app .milkdown [contenteditable="true"]');
+        if (editorElement) {
+          clearInterval(loadInterval);
+          
+          // Try to set the content
+          try {
+            // Focus the editor
+            editorElement.focus();
+            
+            // Clear existing content
+            editorElement.innerHTML = '';
+            
+            // Insert the content
+            document.execCommand('insertText', false, contentToLoad);
+            
+            console.log('Content loaded successfully');
+            
+            // Update the title
+            const filename = localStorage.getItem('geekdown-filename');
+            if (filename) {
+              document.title = filename + ' - GeekDown';
+            }
+          } catch (err) {
+            console.error('Error setting content:', err);
+          }
+          
+          // Clear the stored content
+          localStorage.removeItem('geekdown-content-to-load');
+        }
+      }, 300);
+      
+      // Set a timeout to stop checking
+      setTimeout(function() {
+        clearInterval(loadInterval);
+      }, 10000);
+    }
+  });
+    </script>
+  </footer>
 </html>
