@@ -1,0 +1,46 @@
+{
+  "name": "markdown-editor",
+  "version": "1.0.0",
+  "description": "Offline Markdown Editor",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "NODE_ENV=development electron .",
+    "electron:build": "npm run build && electron-builder",
+    "electron:start": "electron ."
+  },
+  "build": {
+    "appId": "com.yourname.markdown-editor",
+    "productName": "Markdown Editor",
+    "files": [
+      "dist/**/*",
+      "main.js"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "electron-dist"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Utility"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@milkdown/core": "^7.0.0",
+    "@milkdown/plugin-history": "^7.0.0",
+    "@milkdown/preset-commonmark": "^7.0.0",
+    "@milkdown/theme-nord": "^7.8.0"
+  },
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^24.6.3",
+    "vite": "^4.4.9"
+  }
+}
