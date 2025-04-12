@@ -2,7 +2,7 @@
 
 <br />
 
-![1.00](blob:file:///877ae2bf-e12f-4b1f-8693-d90346499ebb)
+![1.00](geekdown-window.png)
 
 GeekDown is a desktop markdown editor I created using Milkdown, Crepe, W3.css, and Electron.&#x20;
 
