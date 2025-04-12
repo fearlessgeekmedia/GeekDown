@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -24,6 +24,7 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+  mainWindow.setMenuBarVisibility(false);
 }
 
 // Listen for the close event from the renderer process

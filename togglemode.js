@@ -1,43 +1,65 @@
+import { Crepe } from "@milkdown/crepe";
+
 function toggleEditorMode(crepe, menuItem) {
+  console.log("toggleEditorMode called"); // Debug: Function entry point
+  console.log("Current menu item text:", menuItem.textContent);
+
   const markdownView = document.getElementById("markdown-view");
 
   if (markdownView) {
-    // Switch back to WYSIWYG mode
-    const markdown = markdownView.value; // Get the updated Markdown content
-    markdownView.remove(); // Remove the Markdown textarea
+    console.log("Markdown view detected. Switching to WYSIWYG mode...");
 
-    console.log("Markdown content being applied:", markdown);
+    // Get the updated Markdown content from the textarea
+    const markdown = markdownView.value;
+    console.log("Markdown content from textarea:", markdown);
+
+    // Remove the Markdown textarea
+    markdownView.remove();
+    console.log("Markdown textarea removed");
 
     // Clear the #app element
     const appDiv = document.getElementById("app");
     if (appDiv) {
       appDiv.innerHTML = ""; // Clear the editor container
+      console.log("#app container cleared");
     }
 
     // Destroy the current editor instance and recreate it
-    crepe.destroy().then(() => {
-      console.log("Crepe instance destroyed");
+    crepe
+      .destroy()
+      .then(() => {
+        console.log("Crepe instance destroyed");
 
-      const newCrepe = new Crepe({
-        root: "#app",
-        defaultValue: markdown, // Pass the updated Markdown content
+        // Recreate the editor with the updated Markdown content
+        const newCrepe = new Crepe({
+          root: "#app",
+          defaultValue: markdown, // Pass the updated Markdown content
+        });
+
+        window.crepeInstance = newCrepe; // Update the global instance
+
+        return newCrepe.create();
+      })
+      .then(() => {
+        console.log("Switched back to WYSIWYG mode with updated content");
+        menuItem.textContent = "Switch to Markdown Mode";
+      })
+      .catch((err) => {
+        console.error("Error switching back to WYSIWYG mode:", err);
       });
-
-      window.crepeInstance = newCrepe;
-
-      return newCrepe.create();
-    }).then(() => {
-      console.log("Switched back to WYSIWYG mode with updated content");
-      menuItem.textContent = "Switch to Markdown Mode";
-    }).catch((err) => {
-      console.error("Error switching back to WYSIWYG mode:", err);
-    });
   } else {
-    // Switch to Markdown code mode
-    const markdown = crepe.getMarkdown(); // Get the current Markdown content
+    console.log("No Markdown view detected. Switching to Markdown code mode...");
 
-    console.log("Markdown content retrieved:", markdown);
+    // Get the current Markdown content from the editor
+    const markdown = crepe.getMarkdown();
+    console.log("Markdown content retrieved from editor:", markdown);
 
+    if (!markdown) {
+      console.error("Failed to retrieve Markdown content from the editor");
+      return;
+    }
+
+    // Create a textarea for Markdown editing
     const textarea = document.createElement("textarea");
     textarea.id = "markdown-view";
     textarea.value = markdown;
@@ -55,7 +77,26 @@ function toggleEditorMode(crepe, menuItem) {
     textarea.style.color = "#333";
     document.body.appendChild(textarea);
 
+    console.log("Markdown textarea created and appended to the DOM");
+
     menuItem.textContent = "Switch to WYSIWYG Mode";
     console.log("Switched to Markdown code mode");
   }
 }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleModeBtn = document.getElementById("toggle-mode");
+  console.log("Toggle Mode Button:", toggleModeBtn); // Debug: Check if the button exists
+
+  if (toggleModeBtn) {
+    toggleModeBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      console.log("Toggle Mode Button Clicked"); // Debug: Check if the click event is triggered
+      toggleEditorMode(window.crepeInstance, toggleModeBtn);
+    });
+    console.log("Event listener added to Toggle Mode Button"); // Debug: Confirm listener is added
+  } else {
+    console.error("Toggle Mode Button not found in the DOM");
+  }
+});
