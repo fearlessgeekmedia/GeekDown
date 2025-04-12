@@ -1,5 +1,5 @@
 {
-  "name": "markdown-editor",
+  "name": "geekdown",
   "version": "1.0.0",
   "description": "Offline Markdown Editor",
   "main": "main.js",
@@ -12,11 +12,13 @@
     "electron:start": "electron ."
   },
   "build": {
-    "appId": "com.yourname.markdown-editor",
-    "productName": "Markdown Editor",
+    "appId": "com.yourname.geekdown",
+    "productName": "GeekDown",
     "files": [
       "dist/**/*",
-      "main.js"
+      "main.js",
+      "*.js",
+      "!node_modules/**/*"
     ],
     "directories": {
       "buildResources": "assets",
@@ -27,11 +29,21 @@
         "AppImage"
       ],
       "category": "Utility"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
     }
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "BSD-2-Clause",
   "dependencies": {
     "@milkdown/core": "^7.0.0",
     "@milkdown/plugin-history": "^7.0.0",
@@ -40,7 +52,7 @@
   },
   "devDependencies": {
     "electron": "^26.6.10",
-    "electron-builder": "^24.6.3",
-    "vite": "^4.4.9"
+    "electron-builder": "^24.13.3",
+    "vite": "^4.5.13"
   }
 }

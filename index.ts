@@ -1,19 +1,20 @@
 import { Crepe } from "@milkdown/crepe";
 import "@milkdown/crepe/theme/common/style.css";
-// We have some themes for you to choose, ex.
 import "@milkdown/crepe/theme/frame.css";
 
-// Or you can create your own theme
-//import "./your-theme.css";
+const contentToLoad =
+  localStorage.getItem("geekdown-content-to-load") || "# Hello, Milkdown!";
 
 const crepe = new Crepe({
   root: "#app",
-  defaultValue: "# Hello, Milkdown!",
+  defaultValue: contentToLoad,
 });
 
-crepe.create().then(() => {
-  console.log("Milkdown is ready!");
-});
-
-// Before unmount
-//crepe.destroy();
+crepe.create()
+  .then(() => {
+    console.log("Milkdown is ready!");
+    (window as any).crepeInstance = crepe; // Expose the Crepe instance globally
+  })
+  .catch((err) => {
+    console.error("Error initializing Milkdown:", err);
+  });
