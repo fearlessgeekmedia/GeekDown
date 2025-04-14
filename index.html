@@ -6,22 +6,39 @@
     <title>GeekDown</title>
     <link rel="stylesheet" href="./w3.css">
   </head>
-  <body>
-    <div class="w3-bar w3-light-grey">
+  <body class="w3-gray">
+    <div class="w3-bar w3-light-gray">
       <div class="w3-dropdown-hover">
         <button class="w3-button">File</button>
         <div class="w3-dropdown-content w3-bar-block w3-card-4">
           <a href="#" class="w3-bar-item w3-button" id="new">New</a>
           <a href="#" class="w3-bar-item w3-button" id="open">Open</a>
-          <a href="#" class="w3-bar-item w3-button" id="save">Save</a>
+          <a href="#" class="w3-bar-item w3-button" id="save">Save to Browser Storage</a>
           <a href="#" class="w3-bar-item w3-button" id="save_as">Save As</a>
           <a href="#" class="w3-bar-item w3-button" id="close">Close</a>
         </div>
       </div>
       <a href="#" class="w3-bar-item w3-button" id="toggle-mode">Switch to Markdown Mode</a>
+      <a href="#" class="w3-bar-item w3-button" id="about" onclick="document.getElementById('about-modal').style.display='block'">About GeekDown</a>
+      <div id="about-modal" class="w3-modal">
+        <div class="w3-modal-content w3-round-large">
+          <div class="w3-container">
+            <span onclick="document.getElementById('about-modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+            <h3>GeekDown</h3>
+            <p>&copy; 2025
+              <a href="https://fearlessgeekmedia.com" target="_blank">Fearless Geek Media</a>
+              and released under the MIT License.</p>
+            <p>Source code available on
+              <a href="https://github.com/fearlessgeekmedia/geekdown" target="_blank">Github</a>
+              under the MIT license.</p>
+            <p>You can support the project financially at
+              <a href="https://ko-fi.com/fearlessgeekmedia" target="_blank">Ko-Fi</a></p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="w3-border-top w3-border-left w3-margin">
-      <div id="app"></div>
+    <div class="w3-border w3-round w3-margin w3-white">
+      <div id="app" class="w3-margin"></div>
       <script type="module" src="index.ts"></script>
       <script src="newfile.js"></script>
       <script src="openfile.js"></script>
