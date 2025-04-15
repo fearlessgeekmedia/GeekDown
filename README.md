@@ -23,7 +23,7 @@ If you download the source, do the following.
 **Linux**
 
 ```
-npm install electron electron-builder vite --save-dev
+npm install @milkdown/crepe electron electron-builder vite --save-dev
 ```
 
 To test
