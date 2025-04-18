@@ -12,7 +12,7 @@ I wanted to get a little more experience with Milkdown before adding it to Fearl
 
 <br />
 
-Right now, I only have this working in Linux - MX Linux specifically. I have run it in MacOS yet, and I don't have Windows. This is alpha software at this time.
+This is being tested on MX Linux, MacOS, and Windows 10. The Windows 10 version is tested in a virtual machine. This is alpha software at this time.
 
 <br />
 
@@ -20,7 +20,7 @@ If you download the source, do the following.
 
 <br />
 
-**Linux**
+**Build**
 
 ```
 npm install @milkdown/crepe electron electron-builder vite --save-dev
@@ -38,7 +38,7 @@ To build
 npm run electron:build
 ```
 
-An AppImage will be in the electron-dist directory. Enjoy!
+Your binary will be in the electron-dist directory. Enjoy!
 
 <br />
 
