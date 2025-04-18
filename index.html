@@ -11,20 +11,21 @@
       <div class="w3-dropdown-hover">
         <button class="w3-button">File</button>
         <div class="w3-dropdown-content w3-bar-block w3-card-4">
-          <a href="#" class="w3-bar-item w3-button" id="new">New</a>
-          <a href="#" class="w3-bar-item w3-button" id="open">Open</a>
-          <a href="#" class="w3-bar-item w3-button" id="save">Save to Browser Storage</a>
-          <a href="#" class="w3-bar-item w3-button" id="save_as">Save As</a>
+          <a href="#" class="w3-bar-item w3-button" id="new">New<span class="w3-margin w3-text-gray">ctrl+n</span></a>
+            <a href="#" class="w3-bar-item w3-button" id="open">Open<span class="w3-margin w3-text-gray">ctrl+o</a>
+          <a href="#" class="w3-bar-item w3-button" id="save">Save to Browser Storage<span class="w3-margin w3-text-gray">ctrl+s</span></a>
+          <a href="#" class="w3-bar-item w3-button" id="save_as">Save As<span class="w3-margin w3-text-gray">ctrl+shift+s</a></a>
           <hr />
-          <a href="#" class="w3-bar-item w3-button" id="export-to-html">Export to HTML</a>
+          <a href="#" class="w3-bar-item w3-button" id="export-to-html">Export to HTML (coming soon)</a>
+          <a href="#" class="w3-bar-item w3-button" id="export-to-pdf">Export to PDF (coming soon)</a>
           <hr />
-          <a href="#" class="w3-bar-item w3-button" id="close">Close</a>
+          <a href="#" class="w3-bar-item w3-button" id="close">Close<span class="w3-margin w3-text-gray">ctrl+w</a>
         </div>
       </div>
       <div class="w3-dropdown-hover">
         <button class="w3-button">Settings</button>
         <div class="w3-dropdown-content w3-bar-block w3-card-4">
-          <a href="#" class="w3-bar-item w3-button" id="settings-font">Font</a>
+          <a href="#" class="w3-bar-item w3-button" id="settings-font">Font (Coming soon)</a>
         </div>
       </div>
       <a href="#" class="w3-bar-item w3-button" id="toggle-mode">Switch to Markdown Mode</a>
@@ -56,6 +57,7 @@
       <script src="openfile.js"></script>
       <script src="savefile.js"></script>
       <script src="closefile.js"></script>
+      <script src="hotkeys.js"></script>
       <script type="module" src="togglemode.js"></script>
     </div>
   </body>

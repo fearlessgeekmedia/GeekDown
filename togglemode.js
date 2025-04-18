@@ -1,7 +1,7 @@
 import { Crepe } from "@milkdown/crepe";
 
 function toggleEditorMode(crepe, menuItem) {
-  console.log("toggleEditorMode called"); // Debug: Function entry point
+  console.log("toggleEditorMode called");
   console.log("Current menu item text:", menuItem.textContent);
 
   const markdownView = document.getElementById("markdown-view");
@@ -9,34 +9,29 @@ function toggleEditorMode(crepe, menuItem) {
   if (markdownView) {
     console.log("Markdown view detected. Switching to WYSIWYG mode...");
 
-    // Get the updated Markdown content from the textarea
     const markdown = markdownView.value;
     console.log("Markdown content from textarea:", markdown);
 
-    // Remove the Markdown textarea
     markdownView.remove();
     console.log("Markdown textarea removed");
 
-    // Clear the #app element
     const appDiv = document.getElementById("app");
     if (appDiv) {
-      appDiv.innerHTML = ""; // Clear the editor container
+      appDiv.innerHTML = "";
       console.log("#app container cleared");
     }
 
-    // Destroy the current editor instance and recreate it
     crepe
       .destroy()
       .then(() => {
         console.log("Crepe instance destroyed");
 
-        // Recreate the editor with the updated Markdown content
         const newCrepe = new Crepe({
           root: "#app",
-          defaultValue: markdown, // Pass the updated Markdown content
+          defaultValue: markdown,
         });
 
-        window.crepeInstance = newCrepe; // Update the global instance
+        window.crepeInstance = newCrepe;
 
         return newCrepe.create();
       })
@@ -50,7 +45,6 @@ function toggleEditorMode(crepe, menuItem) {
   } else {
     console.log("No Markdown view detected. Switching to Markdown code mode...");
 
-    // Get the current Markdown content from the editor
     const markdown = crepe.getMarkdown();
     console.log("Markdown content retrieved from editor:", markdown);
 
@@ -59,7 +53,6 @@ function toggleEditorMode(crepe, menuItem) {
       return;
     }
 
-    // Create a textarea for Markdown editing
     const textarea = document.createElement("textarea");
     textarea.id = "markdown-view";
     textarea.value = markdown;
@@ -84,18 +77,17 @@ function toggleEditorMode(crepe, menuItem) {
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
   const toggleModeBtn = document.getElementById("toggle-mode");
-  console.log("Toggle Mode Button:", toggleModeBtn); // Debug: Check if the button exists
+  console.log("Toggle Mode Button:", toggleModeBtn);
 
   if (toggleModeBtn) {
     toggleModeBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      console.log("Toggle Mode Button Clicked"); // Debug: Check if the click event is triggered
+      console.log("Toggle Mode Button Clicked");
       toggleEditorMode(window.crepeInstance, toggleModeBtn);
     });
-    console.log("Event listener added to Toggle Mode Button"); // Debug: Confirm listener is added
+    console.log("Event listener added to Toggle Mode Button");
   } else {
     console.error("Toggle Mode Button not found in the DOM");
   }
