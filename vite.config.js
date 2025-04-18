@@ -11,15 +11,22 @@ export default defineConfig({
     {
       name: 'copy-files',
       closeBundle() {
-        try {
-          copyFileSync('newfile.js', 'dist/newfile.js');
-          copyFileSync('openfile.js', 'dist/openfile.js');
-          copyFileSync('savefile.js', 'dist/savefile.js');
-          copyFileSync('closefile.js', 'dist/closefile.js');
-          console.log('Successfully copied menu scripts to dist directory');
-        } catch (err) {
-          console.error('Error copying menu scripts:', err);
-        }
+        const files = [
+          'newfile.js',
+          'openfile.js',
+          'savefile.js',
+          'closefile.js',
+          'hotkeys.js'
+        ];
+        
+        files.forEach(file => {
+          try {
+            copyFileSync(file, `dist/${file}`);
+            console.log(`Successfully copied ${file} to dist directory`);
+          } catch (err) {
+            console.error(`Error copying ${file}:`, err);
+          }
+        });
       }
     }
   ]
