@@ -28,6 +28,13 @@ npm install @milkdown/crepe electron electron-builder vite --save-dev
 
 To test
 
+In one terminal window, run
+```
+npx vite
+```
+
+In a new terminal window/tab/pane, run
+
 ```
 npm run electron:dev
 ```
