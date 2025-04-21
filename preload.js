@@ -6,5 +6,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onOpen: (callback) => ipcRenderer.on('trigger-open', () => callback()),
   onSave: (callback) => ipcRenderer.on('trigger-save', () => callback()),
   onSaveAs: (callback) => ipcRenderer.on('trigger-save-as', () => callback()),
-  onClose: (callback) => ipcRenderer.on('trigger-close', () => callback())
+  onClose: (callback) => ipcRenderer.on('trigger-close', () => callback()),
+  // Add export functions
+  exportToHtml: (markdown) => ipcRenderer.send('export-to-html', markdown),
+  exportToPdf: (markdown) => ipcRenderer.send('export-to-pdf', markdown)
 });

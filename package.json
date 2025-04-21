@@ -1,6 +1,6 @@
 {
   "name": "geekdown",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Offline Markdown Editor",
   "main": "main.js",
   "scripts": {
@@ -50,7 +50,8 @@
     "@milkdown/plugin-history": "^7.0.0",
     "@milkdown/preset-commonmark": "^7.0.0",
     "@milkdown/theme-nord": "^7.8.0",
-    "electron-bundler": "^0.0.0-alpha.0.0"
+    "electron-bundler": "^0.0.0-alpha.0.0",
+    "marked": "^15.0.8"
   },
   "devDependencies": {
     "electron": "^26.6.10",

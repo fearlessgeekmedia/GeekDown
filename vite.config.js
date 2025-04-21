@@ -16,7 +16,9 @@ export default defineConfig({
           'openfile.js',
           'savefile.js',
           'closefile.js',
-          'hotkeys.js'
+          'hotkeys.js',
+          'exportfile.js',
+          'fontsettings.js'  // Add this line
         ];
         
         files.forEach(file => {
