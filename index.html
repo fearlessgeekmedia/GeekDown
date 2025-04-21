@@ -11,11 +11,21 @@
       <div class="w3-dropdown-hover">
         <button class="w3-button">File</button>
         <div class="w3-dropdown-content w3-bar-block w3-card-4">
-          <a href="#" class="w3-bar-item w3-button" id="new">New</a>
-          <a href="#" class="w3-bar-item w3-button" id="open">Open</a>
-          <a href="#" class="w3-bar-item w3-button" id="save">Save to Browser Storage</a>
-          <a href="#" class="w3-bar-item w3-button" id="save_as">Save As</a>
-          <a href="#" class="w3-bar-item w3-button" id="close">Close</a>
+          <a href="#" class="w3-bar-item w3-button" id="new">New<span class="w3-margin w3-text-gray">ctrl+n</span></a>
+            <a href="#" class="w3-bar-item w3-button" id="open">Open<span class="w3-margin w3-text-gray">ctrl+o</a>
+          <a href="#" class="w3-bar-item w3-button" id="save">Save to Browser Storage<span class="w3-margin w3-text-gray">ctrl+s</span></a>
+          <a href="#" class="w3-bar-item w3-button" id="save_as">Save As<span class="w3-margin w3-text-gray">ctrl+shift+s</a></a>
+          <hr />
+          <a href="#" class="w3-bar-item w3-button" id="export-to-html">Export to HTML</a>
+          <a href="#" class="w3-bar-item w3-button" id="export-to-pdf">Export to PDF</a>
+          <hr />
+          <a href="#" class="w3-bar-item w3-button" id="close">Close<span class="w3-margin w3-text-gray">ctrl+w</a>
+        </div>
+      </div>
+      <div class="w3-dropdown-hover">
+        <button class="w3-button">Settings</button>
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+          <a href="#" class="w3-bar-item w3-button" id="settings-font">Font</a>
         </div>
       </div>
       <a href="#" class="w3-bar-item w3-button" id="toggle-mode">Switch to Markdown Mode</a>
@@ -24,14 +34,17 @@
         <div class="w3-modal-content w3-round-large">
           <div class="w3-container">
             <span onclick="document.getElementById('about-modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-            <h3>GeekDown</h3>
-            <p>&copy; 2025
+            <div class="w3-panel w3-green">
+              <h3 style="text-align:center">GeekDown</h3>
+              <h4 style="text-align:center">v. 0.0.4</h4>
+            </div>
+            <p style="text-align:center">&copy; 2025
               <a href="https://fearlessgeekmedia.com" target="_blank">Fearless Geek Media</a>
               and released under the MIT License.</p>
-            <p>Source code available on
+            <p style="text-align:center">Source code available on
               <a href="https://github.com/fearlessgeekmedia/geekdown" target="_blank">Github</a>
               under the MIT license.</p>
-            <p>You can support the project financially at
+            <p style="text-align:center">You can support the project financially at
               <a href="https://ko-fi.com/fearlessgeekmedia" target="_blank">Ko-Fi</a></p>
           </div>
         </div>
@@ -44,6 +57,9 @@
       <script src="openfile.js"></script>
       <script src="savefile.js"></script>
       <script src="closefile.js"></script>
+      <script src="hotkeys.js"></script>
+      <script src="exportfile.js"></script>
+      <script src="fontsettings.js"></script>
       <script type="module" src="togglemode.js"></script>
     </div>
   </body>

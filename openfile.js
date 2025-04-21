@@ -34,4 +34,3 @@ function openFile() {
 
   fileInput.click();
 }
-
