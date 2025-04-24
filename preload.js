@@ -1,3 +1,4 @@
+// preload.js
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -7,7 +8,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onSave: (callback) => ipcRenderer.on('trigger-save', () => callback()),
   onSaveAs: (callback) => ipcRenderer.on('trigger-save-as', () => callback()),
   onClose: (callback) => ipcRenderer.on('trigger-close', () => callback()),
-  // Add export functions
   exportToHtml: (markdown) => ipcRenderer.send('export-to-html', markdown),
-  exportToPdf: (markdown) => ipcRenderer.send('export-to-pdf', markdown)
+  exportToPdf: (markdown) => ipcRenderer.send('export-to-pdf', markdown),
+
+  // New API to save image file
+  saveImageFile: (filePath) => ipcRenderer.invoke('save-image-file', filePath),
 });

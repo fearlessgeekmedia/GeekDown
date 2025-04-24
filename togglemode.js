@@ -9,7 +9,7 @@ function toggleEditorMode(crepe, menuItem) {
   if (markdownView) {
     console.log("Markdown view detected. Switching to WYSIWYG mode...");
 
-    const markdown = markdownView.value;
+    let markdown = markdownView.value;
     console.log("Markdown content from textarea:", markdown);
 
     markdownView.remove();
@@ -45,7 +45,8 @@ function toggleEditorMode(crepe, menuItem) {
   } else {
     console.log("No Markdown view detected. Switching to Markdown code mode...");
 
-    const markdown = crepe.getMarkdown();
+    // Get raw markdown directly from the editor
+    let markdown = crepe.getMarkdown();
     console.log("Markdown content retrieved from editor:", markdown);
 
     if (!markdown) {
@@ -53,6 +54,10 @@ function toggleEditorMode(crepe, menuItem) {
       return;
     }
 
+    // Clean up unwanted <br /> tags in tables and other elements
+    markdown = cleanupMarkdown(markdown);
+
+    // Create the textarea for editing raw markdown
     const textarea = document.createElement("textarea");
     textarea.id = "markdown-view";
     textarea.value = markdown;
@@ -75,6 +80,31 @@ function toggleEditorMode(crepe, menuItem) {
     menuItem.textContent = "Switch to WYSIWYG Mode";
     console.log("Switched to Markdown code mode");
   }
+}
+
+// Helper function to clean up unwanted <br /> tags and other issues
+function cleanupMarkdown(markdown) {
+  console.log("Cleaning up markdown...");
+  
+  // Remove <br /> tags from table cells
+  markdown = markdown.replace(/\|\s*<br \/>\s*\|/g, '| |');
+  markdown = markdown.replace(/\|\s*<br \/>\s*$/gm, '| ');
+  markdown = markdown.replace(/^\s*<br \/>\s*\|/gm, '| ');
+  
+  // Remove standalone <br /> tags
+  markdown = markdown.replace(/^\s*<br \/>\s*$/gm, '');
+  
+  // Fix any table formatting issues
+  const tableRegex = /(\|[^\n]*\|)(\s*<br \/>)*/g;
+  markdown = markdown.replace(tableRegex, (match, tableLine) => {
+    return tableLine;
+  });
+  
+  // General cleanup of any remaining <br /> tags
+  markdown = markdown.replace(/<br \/>/g, '');
+  
+  console.log("Cleaned markdown:", markdown);
+  return markdown;
 }
 
 document.addEventListener("DOMContentLoaded", function () {

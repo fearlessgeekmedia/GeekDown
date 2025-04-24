@@ -1,3 +1,4 @@
+// main.js
 const { app, BrowserWindow, ipcMain, globalShortcut, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
@@ -12,7 +13,7 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
-    }
+    },
   });
 
   if (process.env.NODE_ENV === 'development') {
@@ -26,19 +27,19 @@ function createWindow() {
   globalShortcut.register('CommandOrControl+N', () => {
     mainWindow.webContents.send('trigger-new');
   });
-  
+
   globalShortcut.register('CommandOrControl+O', () => {
     mainWindow.webContents.send('trigger-open');
   });
-  
+
   globalShortcut.register('CommandOrControl+S', () => {
     mainWindow.webContents.send('trigger-save');
   });
-  
+
   globalShortcut.register('CommandOrControl+Shift+S', () => {
     mainWindow.webContents.send('trigger-save-as');
   });
-  
+
   globalShortcut.register('CommandOrControl+W', () => {
     mainWindow.webContents.send('trigger-close');
   });
@@ -46,12 +47,46 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
   mainWindow.setMenuBarVisibility(false);
 }
 
+// IPC handler to save image file locally
+ipcMain.handle('save-image-file', async (event, originalFilePath) => {
+  try {
+    const userDataPath = app.getPath('userData');
+    const imagesDir = path.join(userDataPath, 'images');
+
+    if (!fs.existsSync(imagesDir)) {
+      fs.mkdirSync(imagesDir, { recursive: true });
+    }
+
+    const fileName = path.basename(originalFilePath);
+    let destPath = path.join(imagesDir, fileName);
+
+    // Handle filename collisions by appending a number
+    let counter = 1;
+    const ext = path.extname(fileName);
+    const baseName = path.basename(fileName, ext);
+    while (fs.existsSync(destPath)) {
+      destPath = path.join(imagesDir, `${baseName}-${counter}${ext}`);
+      counter++;
+    }
+
+    // Copy the file to the images directory
+    fs.copyFileSync(originalFilePath, destPath);
+
+    // Return a file:// URL for the saved image
+    return `file://${destPath}`;
+  } catch (error) {
+    console.error('Error saving image file:', error);
+    return null;
+  }
+});
+
 // Listen for the close event from the renderer process
 ipcMain.on('app-close', () => {
-  console.log("Received app-close event");
+  console.log('Received app-close event');
   if (mainWindow) {
     mainWindow.close();
   }
@@ -59,82 +94,87 @@ ipcMain.on('app-close', () => {
 
 // Handle HTML export
 ipcMain.on('export-to-html', (event, markdown) => {
-  console.log("Received export-to-html event");
-  
-  dialog.showSaveDialog(mainWindow, {
-    title: 'Export as HTML',
-    defaultPath: path.join(app.getPath('documents'), 'document.html'),
-    filters: [
-      { name: 'HTML Files', extensions: ['html'] }
-    ]
-  }).then(result => {
-    if (!result.canceled && result.filePath) {
-      const html = createHtmlDocument(markdown);
-      fs.writeFileSync(result.filePath, html);
-    }
-  }).catch(err => {
-    console.error('Error exporting to HTML:', err);
-  });
+  console.log('Received export-to-html event');
+
+  dialog
+    .showSaveDialog(mainWindow, {
+      title: 'Export as HTML',
+      defaultPath: path.join(app.getPath('documents'), 'document.html'),
+      filters: [{ name: 'HTML Files', extensions: ['html'] }],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePath) {
+        const html = createHtmlDocument(markdown);
+        fs.writeFileSync(result.filePath, html);
+      }
+    })
+    .catch((err) => {
+      console.error('Error exporting to HTML:', err);
+    });
 });
 
 // Handle PDF export
 ipcMain.on('export-to-pdf', (event, markdown) => {
-  console.log("Received export-to-pdf event");
-  
-  dialog.showSaveDialog(mainWindow, {
-    title: 'Export as PDF',
-    defaultPath: path.join(app.getPath('documents'), 'document.pdf'),
-    filters: [
-      { name: 'PDF Files', extensions: ['pdf'] }
-    ]
-  }).then(result => {
-    if (!result.canceled && result.filePath) {
-      // Create a temporary HTML file
-      const tempHtml = createHtmlDocument(markdown);
-      const tempPath = path.join(app.getPath('temp'), 'geekdown-export.html');
-      fs.writeFileSync(tempPath, tempHtml);
-      
-      // Create a hidden window to render the HTML
-      const pdfWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        show: false
-      });
-      
-      pdfWindow.loadFile(tempPath);
-      
-      pdfWindow.webContents.on('did-finish-load', () => {
-        // Print to PDF
-        pdfWindow.webContents.printToPDF({
-          marginsType: 0,
-          printBackground: true,
-          printSelectionOnly: false,
-          landscape: false
-        }).then(data => {
-          fs.writeFileSync(result.filePath, data);
-          pdfWindow.close();
-          
-          // Clean up temp file
-          try {
-            fs.unlinkSync(tempPath);
-          } catch (e) {
-            console.error('Error removing temp file:', e);
-          }
-        }).catch(error => {
-          console.error('Error generating PDF:', error);
+  console.log('Received export-to-pdf event');
+
+  dialog
+    .showSaveDialog(mainWindow, {
+      title: 'Export as PDF',
+      defaultPath: path.join(app.getPath('documents'), 'document.pdf'),
+      filters: [{ name: 'PDF Files', extensions: ['pdf'] }],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePath) {
+        // Create a temporary HTML file
+        const tempHtml = createHtmlDocument(markdown);
+        const tempPath = path.join(app.getPath('temp'), 'geekdown-export.html');
+        fs.writeFileSync(tempPath, tempHtml);
+
+        // Create a hidden window to render the HTML
+        const pdfWindow = new BrowserWindow({
+          width: 800,
+          height: 600,
+          show: false,
         });
-      });
-    }
-  }).catch(err => {
-    console.error('Error exporting to PDF:', err);
-  });
+
+        pdfWindow.loadFile(tempPath);
+
+        pdfWindow.webContents.on('did-finish-load', () => {
+          // Print to PDF
+          pdfWindow.webContents
+            .printToPDF({
+              marginsType: 0,
+              printBackground: true,
+              printSelectionOnly: false,
+              landscape: false,
+            })
+            .then((data) => {
+              fs.writeFileSync(result.filePath, data);
+              pdfWindow.close();
+
+              // Clean up temp file
+              try {
+                fs.unlinkSync(tempPath);
+              } catch (e) {
+                console.error('Error removing temp file:', e);
+              }
+            })
+            .catch((error) => {
+              console.error('Error generating PDF:', error);
+            });
+        });
+      }
+    })
+    .catch((err) => {
+      console.error('Error exporting to PDF:', err);
+    });
 });
 
 function createHtmlDocument(markdown) {
   // Simple markdown to HTML conversion
   // This is a very basic implementation
   // In a real app, you'd use a library like marked or showdown
-  
+
   let html = markdown
     .replace(/\n\n/g, '</p><p>')
     .replace(/\n/g, '<br>')
@@ -149,7 +189,7 @@ function createHtmlDocument(markdown) {
     .replace(/^#### (.*$)/gm, '<h4>$1</h4>')
     .replace(/^##### (.*$)/gm, '<h5>$1</h5>')
     .replace(/^###### (.*$)/gm, '<h6>$1</h6>');
-  
+
   return `<!DOCTYPE html>
 <html>
 <head>
