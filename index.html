@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="./w3.css">
   </head>
   <body class="w3-gray">
-    <div class="w3-bar w3-light-gray">
+    <div class="w3-bar w3-light-gray w3-top">
       <div class="w3-dropdown-hover">
         <button class="w3-button">File</button>
-        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <div class="w3-dropdown-content w3-bar-block w3-card-4" style="position: fixed">
           <a href="#" class="w3-bar-item w3-button" id="new">New<span class="w3-margin w3-text-gray">ctrl+n</span></a>
             <a href="#" class="w3-bar-item w3-button" id="open">Open<span class="w3-margin w3-text-gray">ctrl+o</a>
           <a href="#" class="w3-bar-item w3-button" id="save">Save to Browser Storage<span class="w3-margin w3-text-gray">ctrl+s</span></a>
@@ -24,7 +24,7 @@
       </div>
       <div class="w3-dropdown-hover">
         <button class="w3-button">Settings</button>
-        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <div class="w3-dropdown-content w3-bar-block w3-card-4" style="position: fixed">
           <a href="#" class="w3-bar-item w3-button" id="settings-font">Font</a>
         </div>
       </div>
@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <div class="w3-border w3-round w3-margin w3-white">
+    <div class="w3-border w3-round w3-margin w3-white" style="top: 40px; position: relative">
       <div id="app" class="w3-margin"></div>
       <script type="module" src="index.ts"></script>
       <script src="newfile.js"></script>
