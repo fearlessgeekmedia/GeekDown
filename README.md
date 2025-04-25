@@ -23,7 +23,7 @@ If you download the source, do the following.
 **Build**
 
 ```
-npm install @milkdown/crepe marked electron electron-builder vite --save-dev
+npm install @milkdown/crepe @milkdown/plugin-upload marked electron electron-builder vite --save-dev
 ```
 
 To test

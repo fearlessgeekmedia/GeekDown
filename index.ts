@@ -1,26 +1,25 @@
-import { Crepe } from "@milkdown/crepe";
-import "@milkdown/crepe/theme/common/style.css";
-import "@milkdown/crepe/theme/frame.css";
+// index.ts
+import { Crepe } from '@milkdown/crepe';
+import '@milkdown/crepe/theme/common/style.css';
+import '@milkdown/crepe/theme/frame.css';
 
-const contentToLoad =
-  localStorage.getItem("geekdown-content-to-load") || "# Hello, GeekDown user!";
+const contentToLoad = localStorage.getItem('geekdown-content-to-load') || '# Hello, GeekDown user!';
 
 const crepe = new Crepe({
-  root: "#app",
+  root: '#app',
   defaultValue: contentToLoad,
+  // No custom upload plugin here — default blob URLs will be used
 });
 
-// Apply font settings after editor initialization
 crepe.create()
   .then(() => {
-    console.log("Milkdown is ready!");
-    (window as any).crepeInstance = crepe; // Expose the Crepe instance globally
-    
-    // Apply font settings after editor is initialized
+    console.log('Milkdown Crepe editor is ready!');
+    (window as any).crepeInstance = crepe;
+
     if (typeof window.applyFontSettings === 'function') {
       window.applyFontSettings();
     }
   })
   .catch((err) => {
-    console.error("Error initializing Milkdown:", err);
+    console.error('Error initializing Milkdown Crepe:', err);
   });
