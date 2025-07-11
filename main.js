@@ -4,6 +4,19 @@ const path = require('path');
 const fs = require('fs');
 
 let mainWindow;
+let fileToOpen = null;
+
+// Parse command line arguments for a file to open
+if (process.argv.length > 1) {
+  // On Linux, argv[0] is the path to the executable, argv[1] is the file (if provided)
+  // On packaged Electron, argv[1] may be the app.asar or the file, so check for .md/.markdown/.txt
+  for (let i = 1; i < process.argv.length; i++) {
+    if (process.argv[i].match(/\.(md|markdown|txt)$/i)) {
+      fileToOpen = process.argv[i];
+      break;
+    }
+  }
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -22,6 +35,17 @@ function createWindow() {
   } else {
     mainWindow.loadFile(path.join(__dirname, 'dist', 'index.html'));
   }
+
+  // When the window is ready, send the file content if a file was specified
+  mainWindow.webContents.on('did-finish-load', () => {
+    if (fileToOpen) {
+      fs.readFile(fileToOpen, 'utf8', (err, data) => {
+        if (!err) {
+          mainWindow.webContents.send('load-file-content', { content: data, filename: path.basename(fileToOpen) });
+        }
+      });
+    }
+  });
 
   // Register global shortcuts
   globalShortcut.register('CommandOrControl+N', () => {

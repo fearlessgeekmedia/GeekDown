@@ -1,6 +1,6 @@
 {
   "name": "geekdown",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Offline Markdown Editor",
   "main": "main.js",
   "scripts": {
@@ -46,17 +46,17 @@
   "license": "MIT",
   "dependencies": {
     "@milkdown/core": "^7.0.0",
-    "@milkdown/crepe": "^7.8.0",
     "@milkdown/plugin-history": "^7.0.0",
-    "@milkdown/plugin-upload": "^7.9.0",
     "@milkdown/preset-commonmark": "^7.0.0",
     "@milkdown/theme-nord": "^7.8.0",
-    "electron-bundler": "^0.0.0-alpha.0.0",
-    "marked": "^15.0.8"
+    "electron-bundler": "^0.0.0-alpha.0.0"
   },
   "devDependencies": {
+    "@milkdown/crepe": "^7.15.1",
+    "@milkdown/plugin-upload": "^7.15.1",
     "electron": "^26.6.10",
     "electron-builder": "^24.13.3",
-    "vite": "^4.5.13"
+    "marked": "^16.0.0",
+    "vite": "^4.5.14"
   }
 }

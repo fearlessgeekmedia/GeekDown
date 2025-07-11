@@ -13,4 +13,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // New API to save image file
   saveImageFile: (filePath) => ipcRenderer.invoke('save-image-file', filePath),
+  onLoadFileContent: (callback) => ipcRenderer.on('load-file-content', (event, data) => callback(data)),
 });

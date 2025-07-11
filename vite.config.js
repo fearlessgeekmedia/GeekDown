@@ -19,7 +19,8 @@ export default defineConfig({
           'hotkeys.js',
           'exportfile.js',
           'fontsettings.js',
-          'viewmodesettings.js'
+          'viewmodesettings.js',
+          'version.json'
         ];
         
         files.forEach(file => {
