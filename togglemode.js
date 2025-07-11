@@ -115,10 +115,40 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleModeBtn.addEventListener("click", function (e) {
       e.preventDefault();
       console.log("Toggle Mode Button Clicked");
-      toggleEditorMode(window.crepeInstance, toggleModeBtn);
+      
+      // Check current view mode settings
+      const viewModeSettings = window.getViewModeSettings ? window.getViewModeSettings() : { mode: "switch" };
+      
+      if (viewModeSettings.mode === "sideBySide") {
+        // In side-by-side mode, toggle between side-by-side and single view
+        toggleSideBySideMode(toggleModeBtn);
+      } else {
+        // In switch mode, use original behavior
+        toggleEditorMode(window.crepeInstance, toggleModeBtn);
+      }
     });
     console.log("Event listener added to Toggle Mode Button");
   } else {
     console.error("Toggle Mode Button not found in the DOM");
   }
 });
+
+function toggleSideBySideMode(menuItem) {
+  const sideBySideContainer = document.getElementById("side-by-side-container");
+  
+  if (sideBySideContainer) {
+    // Currently in side-by-side mode, switch to single view
+    console.log("Exiting side-by-side mode");
+    if (window.exitSideBySideMode) {
+      window.exitSideBySideMode();
+    }
+    menuItem.textContent = "Switch to Side-by-Side Mode";
+  } else {
+    // Currently in single view, switch to side-by-side
+    console.log("Entering side-by-side mode");
+    if (window.initializeSideBySideMode) {
+      window.initializeSideBySideMode();
+    }
+    menuItem.textContent = "Switch to Single View Mode";
+  }
+}
