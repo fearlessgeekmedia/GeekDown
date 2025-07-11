@@ -18,7 +18,8 @@ export default defineConfig({
           'closefile.js',
           'hotkeys.js',
           'exportfile.js',
-          'fontsettings.js'  // Add this line
+          'fontsettings.js',
+          'viewmodesettings.js'
         ];
         
         files.forEach(file => {

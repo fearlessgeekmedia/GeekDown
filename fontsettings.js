@@ -292,7 +292,8 @@ function applyFontSettings() {
     }
     
     /* Markdown view */
-    #markdown-view {
+    #markdown-view,
+    #markdown-view-sidebyside {
       font-family: ${settings.fontFamily} !important;
       font-size: ${settings.fontSize} !important;
       line-height: ${settings.lineHeight} !important;
@@ -340,6 +341,14 @@ function applyFontSettings() {
     markdownView.style.fontFamily = settings.fontFamily;
     markdownView.style.fontSize = settings.fontSize;
     markdownView.style.lineHeight = settings.lineHeight;
+  }
+  
+  // Apply to the side-by-side markdown view if it exists
+  const markdownViewSideBySide = document.getElementById("markdown-view-sidebyside");
+  if (markdownViewSideBySide) {
+    markdownViewSideBySide.style.fontFamily = settings.fontFamily;
+    markdownViewSideBySide.style.fontSize = settings.fontSize;
+    markdownViewSideBySide.style.lineHeight = settings.lineHeight;
   }
   
   // Apply to Milkdown/Crepe specific elements
