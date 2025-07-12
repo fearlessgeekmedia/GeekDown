@@ -224,15 +224,21 @@ function applyViewModeSettings() {
   // Store settings globally for access by other modules
   window.viewModeSettings = settings;
   
-  // If we're currently in side-by-side mode, apply it
+  // Check if we're currently in side-by-side mode
+  const isCurrentlyInSideBySide = document.getElementById("side-by-side-container") !== null;
+  
   if (settings.mode === "sideBySide") {
-    // Check if we need to switch to side-by-side mode
-    const currentContainer = document.getElementById("app");
-    const markdownView = document.getElementById("markdown-view");
-    
-    // Only apply if we're not already in the correct mode
-    if (!document.getElementById("side-by-side-container") && !markdownView) {
-      initializeSideBySideMode();
+    // If we should be in side-by-side mode but aren't, initialize it
+    if (!isCurrentlyInSideBySide) {
+      const markdownView = document.getElementById("markdown-view");
+      if (!markdownView) {
+        initializeSideBySideMode();
+      }
+    }
+  } else if (settings.mode === "switch") {
+    // If we should be in switch mode but are currently in side-by-side mode, exit it
+    if (isCurrentlyInSideBySide) {
+      exitSideBySideMode();
     }
   }
 }
