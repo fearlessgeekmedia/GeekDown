@@ -13,6 +13,15 @@ if (process.argv.length > 1) {
   for (let i = 1; i < process.argv.length; i++) {
     if (process.argv[i].match(/\.(md|markdown|txt)$/i)) {
       fileToOpen = process.argv[i];
+      // If the file does not exist, create it as an empty file
+      if (!fs.existsSync(fileToOpen)) {
+        try {
+          fs.writeFileSync(fileToOpen, '');
+          console.log(`Created new file: ${fileToOpen}`);
+        } catch (err) {
+          console.error(`Failed to create file: ${fileToOpen}`, err);
+        }
+      }
       break;
     }
   }
