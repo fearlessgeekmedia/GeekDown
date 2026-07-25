@@ -1,0 +1,19 @@
+{
+   "$schema": "../gen/schemas/desktop-schema.json",
+   "identifier": "main-capability",
+   "description": "Capability for the main window",
+   "windows": ["main"],
+   "permissions": [
+     "core:path:default",
+     "core:event:default",
+     "core:window:default",
+     "core:app:default",
+     "dialog:default",
+     "fs:read-all",
+     "fs:write-all"
+   ],
+   "platforms": ["linux", "windows", "macOS"],
+   "remote": {
+     "urls": ["http://localhost:*/**"]
+   }
+ }

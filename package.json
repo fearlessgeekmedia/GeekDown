@@ -1,62 +1,29 @@
 {
   "name": "geekdown",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "Offline Markdown Editor",
-  "main": "main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "electron:dev": "NODE_ENV=development electron .",
-    "electron:build": "npm run build && electron-builder",
-    "electron:start": "electron ."
+    "tauri": "tauri"
   },
-  "build": {
-    "appId": "com.yourname.geekdown",
-    "productName": "GeekDown",
-    "files": [
-      "dist/**/*",
-      "main.js",
-      "*.js",
-      "!node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets",
-      "output": "electron-dist"
-    },
-    "linux": {
-      "target": [
-        "AppImage"
-      ],
-      "category": "Utility"
-    },
-    "win": {
-      "target": [
-        "nsis"
-      ]
-    },
-    "mac": {
-      "target": [
-        "dmg"
-      ]
-    }
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "@milkdown/core": "^7.0.0",
     "@milkdown/plugin-history": "^7.0.0",
     "@milkdown/preset-commonmark": "^7.0.0",
     "@milkdown/theme-nord": "^7.8.0",
-    "electron-bundler": "^0.0.0-alpha.0.0"
+    "marked": "^16.0.0",
+    "jspdf": "^2.5.1",
+    "html2canvas": "^1.4.1"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0",
+    "@tauri-apps/api": "^2.0.0",
+    "@tauri-apps/plugin-fs": "^2.0.0",
+    "@tauri-apps/plugin-dialog": "^2.0.0",
     "@milkdown/crepe": "^7.15.1",
     "@milkdown/plugin-upload": "^7.15.1",
-    "electron": "^26.6.10",
-    "electron-builder": "^24.13.3",
-    "marked": "^16.0.0",
     "vite": "^4.5.14"
   }
 }

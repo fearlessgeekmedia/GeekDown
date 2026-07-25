@@ -1,0 +1,39 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "GeekDown",
+  "version": "0.0.8",
+  "identifier": "com.geekdown.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:5173",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "GeekDown",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "devtools": true
+      }
+    ],
+    "withGlobalTauri": true,
+    "security": {
+      "pattern": {
+        "use": "brownfield"
+      }
+    }
+  },
+"bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/256x256.png",
+      "icons/icon.png"
+    ]
+  }
+}

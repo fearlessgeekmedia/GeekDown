@@ -4,51 +4,105 @@
 
 ![1.00](geekdown-window.png)
 
-GeekDown is a desktop markdown editor I created using Milkdown, Crepe, W3.css, and Electron.&#x20;
+GeekDown is an offline desktop markdown editor built with Milkdown/Crepe, W3.css, and Tauri.
 
 <br />
 
-I wanted to get a little more experience with Milkdown before adding it to FearlessCMS.&#x20;
+## Features
+
+- Real-time markdown preview
+- Export to HTML with proper markdown rendering
+- Export to PDF with visual formatting
+- File open/save functionality
+- Cross-platform (Linux, macOS, Windows)
 
 <br />
 
-This is being tested on MX Linux, MacOS, and Windows 10. The Windows 10 version is tested in a virtual machine. This is alpha software at this time.
+This is being developed on Linux (Void/MX Linux) and tested on all platforms.
 
 <br />
 
-If you download the source, do the following.
+## Requirements
+
+- Node.js (v18+)
+- Rust (for Tauri build)
+  - Install from https://rustup.rs
+- On Linux: WebKit2GTK development libraries
+  - Debian/Ubuntu: `sudo apt install webkit2gtk-driver libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev`
+  - Fedora: `sudo dnf install webkit2gtk3-devel webkit2gtk41-devel`
+  - Arch: `sudo pacman -S webkit2gtk webkit2gtk-4.1`
+  - **Void Linux**: `sudo xbps-install webkit2gtk-4.1-devel`
+- For AppImage builds on non-Ubuntu systems:
+  - Install `linuxdeploy` from https://github.com/linuxdeploy/linuxdeploy
+  - Install `linuxdeploy-plugin-appimage` in the same directory as linuxdeploy
+- Tauri CLI (optional, for global access):
+  ```bash
+  npm install -g @tauri-apps/cli
+  ```
 
 <br />
 
-**Build**
+## Build & Install
 
-```
-npm install @milkdown/crepe @milkdown/plugin-upload marked electron electron-builder vite --save-dev
-```
+**Quick build (recommended):**
+```bash
+# Linux/macOS
+bash build.sh
 
-To test
-
-In one terminal window, run
-```
-npx vite
+# Windows (PowerShell)
+.\build.ps1
 ```
 
-In a new terminal window/tab/pane, run
+**Manual build:**
 
-```
-npm run electron:dev
-```
-
-To build
-
-```
-npm run electron:build
+**Install dependencies:**
+```bash
+npm install
 ```
 
-Your binary will be in the electron-dist directory. Enjoy!
+**Development mode:**
+```bash
+# With WebKitGTK workarounds (Linux)
+WEBKIT_DISABLE_DMABUF_RENDERER=1 WEBKIT_DISABLE_COMPOSITING_MODE=1 npm run tauri dev
+```
+
+**Production build:**
+```bash
+npm run build
+npm run tauri build
+```
+
+The built binary will be approximately 4MB (vs Electron's 150-200MB).
+
+**Note for Void Linux users**: If AppImage creation fails due to missing `linuxdeploy-plugin-webkit2gtk`, the AppDir will still be created. You can manually create the AppImage:
+```bash
+APPIMAGE_EXTRACT_AND_RUN=1 linuxdeploy --appdir src-tauri/target/release/bundle/appimage/GeekDown.AppDir --output appimage
+```
 
 <br />
+
+**Installing the built application:**
+
+After `npm run tauri build` completes, find the installer in:
+- **Linux**: `src-tauri/target/release/bundle/` (AppImage or deb package)
+- **Windows**: `src-tauri/target/release/bundle/` (NSIS installer or MSI)
+- **macOS**: `src-tauri/target/release/bundle/` (DMG or PKG)
+
+Run the installer for your platform to install GeekDown.
+
+<br />
+
+**Download pre-built binaries:**
+
+Latest releases available at: https://github.com/fearlessgeekmedia/geekdown/releases
+
+<br />
+
+**Troubleshooting:**
+
+If the application window appears blank on Linux, run with WebKitGTK workarounds:
+```bash
+WEBKIT_DISABLE_DMABUF_RENDERER=1 WEBKIT_DISABLE_COMPOSITING_MODE=1 npm run tauri dev
+```
 
 If you want to financially support this and other projects of mine, you may do so at <https://ko-fi.com/fearlessgeekmedia>
-
-<br />

@@ -1,0 +1,1 @@
+{"main-capability":{"identifier":"main-capability","description":"Capability for the main window","remote":{"urls":["http://localhost:*/**"]},"local":true,"windows":["main"],"permissions":["core:path:default","core:event:default","core:window:default","core:app:default","dialog:default","fs:read-all","fs:write-all"],"platforms":["linux","windows","macOS"]}}

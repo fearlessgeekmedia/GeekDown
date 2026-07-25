@@ -1,44 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
-  // Register event listeners for shortcuts
-  if (window.electronAPI) {
-    window.electronAPI.onNew(() => {
-      if (typeof createNewDocument === 'function') {
-        createNewDocument();
-      }
-    });
-
-    window.electronAPI.onOpen(() => {
-      if (typeof openFile === 'function') {
-        openFile();
-      }
-    });
-
-    window.electronAPI.onSave(() => {
-      if (typeof saveToLocalStorage === 'function') {
-        saveToLocalStorage();
-      }
-    });
-
-    window.electronAPI.onSaveAs(() => {
-      if (typeof saveAsMarkdownFile === 'function') {
-        saveAsMarkdownFile("document.md");
-      }
-    });
-
-    window.electronAPI.onClose(() => {
-      if (typeof confirmAndCloseApplication === 'function') {
-        confirmAndCloseApplication();
-      }
-    });
-  }
-
-  // Also keep browser shortcuts for development
   document.addEventListener("keydown", function(e) {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
       return;
     }
 
     const cmdOrCtrl = e.ctrlKey || e.metaKey;
+
+    // F12 for devtools
+    if (e.key === 'F12') {
+      e.preventDefault();
+      if (typeof window.__TAURI__ !== 'undefined' && window.__TAURI__.core) {
+        window.__TAURI__.core.invoke('toggle_devtools');
+      }
+      return;
+    }
 
     if (cmdOrCtrl && e.key.toLowerCase() === 'n') {
       e.preventDefault();

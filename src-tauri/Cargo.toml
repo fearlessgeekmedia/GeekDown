@@ -1,0 +1,23 @@
+[package]
+name = "geekdown"
+version = "0.0.8"
+edition = "2021"
+license = "MIT"
+description = "Offline Markdown Editor"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-fs = "2"
+tauri-plugin-dialog = "2"
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+
+[profile.release]
+strip = true
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"

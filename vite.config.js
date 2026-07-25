@@ -3,9 +3,20 @@ import { copyFileSync } from 'fs';
 
 export default defineConfig({
   base: './',
+  server: {
+    hmr: {
+      overlay: false
+    }
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    rollupOptions: {
+      external: ['@sys', '@env']
+    }
+  },
+  optimizeDeps: {
+    exclude: ['tauri-preload.js', 'openfile.js', 'savefile.js', 'closefile.js', 'hotkeys.js', 'newfile.js', 'fontsettings.js', 'viewmodesettings.js', 'exportfile.js', 'togglemode.js']
   },
   plugins: [
     {
@@ -17,10 +28,10 @@ export default defineConfig({
           'savefile.js',
           'closefile.js',
           'hotkeys.js',
-          'exportfile.js',
           'fontsettings.js',
           'viewmodesettings.js',
-          'version.json'
+          'version.json',
+          'tauri-preload.js'
         ];
         
         files.forEach(file => {
