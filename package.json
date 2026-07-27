@@ -1,6 +1,6 @@
 {
   "name": "geekdown",
-  "version": "0.0.8",
+  "version": "0.0.8r2",
   "description": "Offline Markdown Editor",
   "scripts": {
     "dev": "vite",

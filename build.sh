@@ -43,10 +43,9 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS build
-    echo "Building Tauri binary for macOS..."
-    cd src-tauri
-    cargo build --release
-    echo "Build complete! Binary available at: src-tauri/target/release/geekdown"
+    echo "Building Tauri app for macOS..."
+    npm run tauri build
+    echo "Build complete! App bundle available at: src-tauri/target/release/bundle/"
 fi
 
 echo "Build complete!"
