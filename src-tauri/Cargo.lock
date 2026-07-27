@@ -979,7 +979,7 @@ dependencies = [
 
 [[package]]
 name = "geekdown"
-version = "0.0.8"
+version = "0.0.8-r2"
 dependencies = [
  "serde",
  "serde_json",

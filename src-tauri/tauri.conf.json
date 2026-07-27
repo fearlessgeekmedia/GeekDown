@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "GeekDown",
-  "version": "0.0.8",
+  "version": "0.0.8-r2",
   "identifier": "com.geekdown.app",
   "build": {
     "beforeDevCommand": "npm run dev",
