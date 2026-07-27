@@ -16,7 +16,7 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    exclude: ['tauri-preload.js', 'openfile.js', 'savefile.js', 'closefile.js', 'hotkeys.js', 'newfile.js', 'fontsettings.js', 'viewmodesettings.js', 'exportfile.js', 'togglemode.js']
+    exclude: ['tauri-preload.js', 'openfile.js', 'savefile.js', 'closefile.js', 'hotkeys.js', 'newfile.js', 'fontsettings.js', 'viewmodesettings.js']
   },
   plugins: [
     {
@@ -31,7 +31,8 @@ export default defineConfig({
           'fontsettings.js',
           'viewmodesettings.js',
           'version.json',
-          'tauri-preload.js'
+          'tauri-preload.js',
+          'w3.css'
         ];
         
         files.forEach(file => {

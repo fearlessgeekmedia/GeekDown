@@ -52,12 +52,21 @@ crepe.create()
     console.log('Milkdown Crepe editor is ready!');
     (window as any).crepeInstance = crepe;
 
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if (loadingOverlay) {
+      loadingOverlay.style.display = 'none';
+    }
+
     if (typeof window.applyFontSettings === 'function') {
       window.applyFontSettings();
     }
   })
   .catch((err) => {
     console.error('Error initializing Milkdown Crepe:', err);
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if (loadingOverlay) {
+      loadingOverlay.innerHTML = '<div class="w3-container w3-panel w3-red"><h3>Error loading editor</h3><p>' + (err?.message || err) + '</p></div>';
+    }
   });
 
 document.addEventListener('DOMContentLoaded', () => {
